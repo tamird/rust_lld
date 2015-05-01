@@ -3,7 +3,7 @@ Rust with LLD!
 
 Requirements:
 - LLVM 3.6 with LLD. Available on OSX via homebrew-versions (not yet homebrew proper). See: https://github.com/Homebrew/homebrew/pull/37260
-- Rust (tested with 2015-04-30 nightly) installed to $RUST_PREFIX
+- Rust (tested with 2015-04-30 nightly)
 
 Note: `lld` segfaults sometimes when lots of unused symbols are linked. `rustc` likes to pass `-lpthread -lc -lm` even when those are not used, so this is a problem. The scripts in this repo `rustc_{dynamic,static}.sh` hijack clang's call to `ld` by passing the undocumented flag `-B` - this usually fails because of the aforementioned segfault.
 
