@@ -2,9 +2,12 @@
 
 set -u
 
+# LLVM cmake
+# cmake -G "Unix Makefiles" ../llvm -DCMAKE_C_FLAGS_RELEASE= -DCMAKE_CXX_FLAGS_RELEASE= -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_VERBOSE_MAKEFILE=ON -Wno-dev
+
 export FILE=hello_world
 
-export LLVM=/usr/local/Cellar/llvm36/3.6.0/lib/llvm-3.6/bin
+export LLVM=/Users/tamird/src/llvm-build/bin
 export RUSTLIB=$(rustc --print sysroot)/lib/rustlib/x86_64-apple-darwin/lib
 
 echo 'Dynamic linking: hacking `clang` to make rustc use lld!'
