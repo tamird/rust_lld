@@ -7,7 +7,7 @@ set -u
 
 export FILE=hello_world
 
-export LLVM=/Users/tamird/src/llvm-build/bin
+export LLVM=/usr/local/opt/llvm/bin
 export RUSTLIB=$(rustc --print sysroot)/lib/rustlib/x86_64-apple-darwin/lib
 
 echo 'Dynamic linking: hacking `clang` to make rustc use lld!'
