@@ -10,11 +10,21 @@ export FILE=hello_world
 export LLVM=/usr/local/opt/llvm/bin
 export RUSTLIB=$(rustc --print sysroot)/lib/rustlib/x86_64-apple-darwin/lib
 
-echo 'Dynamic linking: hacking `clang` to make rustc use lld!'
-git clean -dxf && ./rustc_dynamic.sh
-echo 'Static linking: hacking `clang` to make rustc use lld!'
-git clean -dxf && ./rustc_static.sh
-echo 'Dynamic linking: running `rustc` and then `lld`!'
-git clean -dxf && ./manual_dynamic.sh
-echo 'Static linking: running `rustc` and then `lld`!'
-git clean -dxf && ./manual_static.sh
+clean() {
+  git clean -dxfq && mkdir -p target
+}
+
+print() {
+  tput smso
+  echo $*
+  tput sgr0
+}
+
+print 'Dynamic linking: hacking `clang` to make rustc use lld...'
+clean && ./rustc_dynamic.sh
+print 'Static linking: hacking `clang` to make rustc use lld...'
+clean && ./rustc_static.sh
+print 'Dynamic linking: running `rustc` and then `lld`...'
+clean && ./manual_dynamic.sh
+print 'Static linking: running `rustc` and then `lld`...'
+clean && ./manual_static.sh
