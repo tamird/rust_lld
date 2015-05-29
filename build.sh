@@ -2,12 +2,11 @@
 
 set -u
 
-# LLVM cmake
-# cmake -G "Unix Makefiles" ../llvm -DCMAKE_C_FLAGS_RELEASE= -DCMAKE_CXX_FLAGS_RELEASE= -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_VERBOSE_MAKEFILE=ON -Wno-dev
+# brew install llvm --HEAD --with-lld
 
 export FILE=hello_world
 
-export LLVM=/usr/local/opt/llvm/bin
+export LLVM=$(brew --prefix llvm)/bin
 export RUSTLIB=$(rustc --print sysroot)/lib/rustlib/x86_64-apple-darwin/lib
 
 clean() {
