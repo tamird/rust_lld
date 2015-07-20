@@ -19,15 +19,26 @@ LLD 3.6 sometimes segfaults when lots of unused symbols are linked. By default, 
 
 Results
 -------
-LLD 3.6 is busted as described above. LLD HEAD totally works!
-```
-$ ./build.sh
-Dynamic linking: hacking `clang` to make rustc use lld...
-hello world!
-Static linking: hacking `clang` to make rustc use lld...
-hello world!
+LLD 3.6 is busted as described above. LLD HEAD mostly works, but unwinding fails.
+```console
+$ /build.sh
+Dynamic linking: hacking `clang` to make rustc use `lld`...
+thread '<main>' panicked at 'hello world!', hello_world.rs:2
+fatal runtime error: Could not unwind stack, error = 5
+./rustc_dynamic.sh: line 9: 81816 Illegal instruction: 4  DYLD_LIBRARY_PATH=$RUSTLIB target/$FILE
+
+Static linking: hacking `clang` to make rustc use `lld`...
+thread '<main>' panicked at 'hello world!', hello_world.rs:2
+fatal runtime error: Could not unwind stack, error = 5
+./rustc_static.sh: line 9: 81854 Illegal instruction: 4  target/$FILE
+
 Dynamic linking: running `rustc` and then `lld`...
-hello world!
+thread '<main>' panicked at 'hello world!', hello_world.rs:2
+fatal runtime error: Could not unwind stack, error = 5
+./manual_dynamic.sh: line 11: 81894 Illegal instruction: 4  DYLD_LIBRARY_PATH=$RUSTLIB target/$FILE
+
 Static linking: running `rustc` and then `lld`...
-hello world!
+thread '<main>' panicked at 'hello world!', hello_world.rs:2
+fatal runtime error: Could not unwind stack, error = 5
+./manual_static.sh: line 9: 81929 Illegal instruction: 4  target/$FILE
 ```
