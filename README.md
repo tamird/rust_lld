@@ -1,25 +1,21 @@
 Rust with LLD
 =============
 
-Currently tested only on OS X. LLD HEAD refers to [this commit](https://github.com/llvm-mirror/lld/commit/ad256ceb1f5979a07d178db4c569056b526c1850).
+Currently tested only on OS X. LLD HEAD refers to [this commit](https://github.com/llvm-mirror/lld/commit/a19814a4cf206cde9631fa988745a5b278f88186).
 
 Requirements:
-- Rust (tested with rustc 1.3.0-nightly (cb7d06215 2015-06-26))
-- LLVM with LLD (3.6 or HEAD).
-  - OSX: [homebrew](https://github.com/Homebrew/homebrew/blob/master/Library/Formula/llvm.rb)
+- rustc (tested with: rustc 1.3.0-nightly (d33cab1b1 2015-07-22))
+- LLD HEAD:
+  - OSX: [`brew install llvm --HEAD --with-lld`](https://github.com/Homebrew/homebrew/blob/master/Library/Formula/llvm.rb)
   - everything else: [HEAD](http://lld.llvm.org/getting_started.html#building-lld)
 
 A note on rustc
 ---------------
 `rustc` doesn't call `ld` or `lld` directly - instead, it calls `cc` and passes linker-specific flags using `-Wl`. On OS X, `cc` is a symlink to `clang`, which is hard-coded to look for `ld`. Fortunately, `clang` takes an undocumented flag, `-B`, to indicate the directory in which to look for `ld`; the `rustc_{dynamic,static}.sh` scripts in this repository use `-B` to redirect `ld` calls to the `lld` under test.
 
-A note on segfaults
--------------------
-LLD 3.6 sometimes segfaults when lots of unused symbols are linked. By default, `rustc` always passes `-lpthread -lc -lm`, which triggers this bug. This seems to be fixed in LLD HEAD.
-
 Results
 -------
-LLD 3.6 is busted as described above. LLD HEAD mostly works, but unwinding fails.
+Unwinding fails. I was able to run the `rustc` tests in stage1 with `lld` and the only failures were unwinding related.
 ```console
 $ /build.sh
 Dynamic linking: vanilla `rustc`...
