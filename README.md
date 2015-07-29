@@ -17,7 +17,7 @@ Results
 -------
 Unwinding fails. I was able to run the `rustc` tests in stage1 with `lld` and the only failures were unwinding related.
 ```console
-$ /build.sh
+$ ./build.sh
 Dynamic linking: vanilla `rustc`...
 thread '<main>' panicked at 'hello world!', hello_world.rs:2
 
@@ -35,20 +35,20 @@ thread '<main>' panicked at 'hello world!', hello_world.rs:2
 Dynamic linking: hacking `clang` to make rustc use `lld`...
 thread '<main>' panicked at 'hello world!', hello_world.rs:2
 fatal runtime error: Could not unwind stack, error = 5
-./rustc_dynamic.sh: line 9: 84161 Illegal instruction: 4  DYLD_LIBRARY_PATH=$RUSTLIB target/$FILE
+./rustc_dynamic.sh: line 9: 34283 Illegal instruction: 4  DYLD_LIBRARY_PATH=$RUSTLIB target/$FILE
 
 Static linking: hacking `clang` to make rustc use `lld`...
 thread '<main>' panicked at 'hello world!', hello_world.rs:2
 fatal runtime error: Could not unwind stack, error = 5
-./rustc_static.sh: line 9: 84198 Illegal instruction: 4  target/$FILE
+./rustc_static.sh: line 9: 34320 Illegal instruction: 4  target/$FILE
 
 Dynamic linking: running `rustc` and then `lld`...
 thread '<main>' panicked at 'hello world!', hello_world.rs:2
 fatal runtime error: Could not unwind stack, error = 5
-./manual_dynamic.sh: line 11: 84239 Illegal instruction: 4  DYLD_LIBRARY_PATH=$RUSTLIB target/$FILE
+./manual_dynamic.sh: line 13: 34360 Illegal instruction: 4  DYLD_LIBRARY_PATH=$RUSTLIB target/$FILE
 
 Static linking: running `rustc` and then `lld`...
 thread '<main>' panicked at 'hello world!', hello_world.rs:2
 fatal runtime error: Could not unwind stack, error = 5
-./manual_static.sh: line 9: 84274 Illegal instruction: 4  target/$FILE
+./manual_static.sh: line 11: 34393 Illegal instruction: 4  target/$FILE
 ```
