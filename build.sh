@@ -41,6 +41,6 @@ print 'Static linking: hacking `clang` to make rustc use `lld`...'
 clean && echo
 print 'Dynamic linking: running `rustc` and then `lld`...'
 ./manual_dynamic.sh
-echo
+clean && echo
 print 'Static linking: running `rustc` and then `lld`...'
 ./manual_static.sh
