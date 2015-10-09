@@ -4,6 +4,8 @@ set -u
 
 # brew install llvm --HEAD --with-lld
 
+cd $(dirname $0)
+
 export FILE=hello_world
 
 export LLVM=$(brew --prefix llvm)/bin
