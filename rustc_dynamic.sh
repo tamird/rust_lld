@@ -8,4 +8,4 @@ rustc "$FILE".rs -C link-args="-v -B . -Wl,-flavor,darwin" -o target/"$FILE" -C 
 
 cat "$LD_PROCLINE_FILE"
 
-DYLD_LIBRARY_PATH=$RUSTLIB target/"$FILE"
+target/"$FILE"
