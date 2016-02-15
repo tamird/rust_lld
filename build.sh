@@ -16,6 +16,8 @@ RUSTLIB="$(rustc --print sysroot)"/lib/rustlib/x86_64-apple-darwin/lib
 export STD
 STD="$(find "$RUSTLIB" -name 'libstd-*.dylib' | head -n1 | sed s,"$RUSTLIB"/lib,, | sed s,\.dylib$,,)"
 
+export LD_PROCLINE_FILE=target/ld_procline
+
 clean() {
   git clean -dxfq && mkdir -p target
 }
@@ -31,10 +33,10 @@ clean
 set +e
 
 print 'Dynamic linking: vanilla rustc...'
-rustc $FILE.rs -C link-args="-v -B ." -o target/$FILE -C prefer-dynamic && DYLD_LIBRARY_PATH=$RUSTLIB target/$FILE
+rustc $FILE.rs -C link-args="-v -B ." -o target/$FILE -C prefer-dynamic && cat "$LD_PROCLINE_FILE" && DYLD_LIBRARY_PATH=$RUSTLIB target/$FILE
 clean && echo
 print 'Static linking: vanilla rustc...'
-rustc $FILE.rs -C link-args="-v -B ." -o target/$FILE && target/$FILE
+rustc $FILE.rs -C link-args="-v -B ." -o target/$FILE && cat "$LD_PROCLINE_FILE" && target/$FILE
 clean && echo
 print 'Dynamic linking: running rustc and then ld...'
 rustc --emit obj "$FILE".rs -o target/$FILE.o && ld -demangle -dynamic -arch x86_64 -o target/$FILE -L"$RUSTLIB" target/$FILE.o -dead_strip -l"$STD" -lSystem -lpthread -lc -lm -rpath @loader_path/../../rust-build/x86_64-apple-darwin/stage2/lib/rustlib/x86_64-apple-darwin/lib -rpath /usr/local/lib/rustlib/x86_64-apple-darwin/lib -lcompiler-rt && DYLD_LIBRARY_PATH=$RUSTLIB target/$FILE
