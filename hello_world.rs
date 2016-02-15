@@ -1,3 +1,4 @@
 fn main() {
-  panic!("hello world!");
+    println!("hello world!");
+    panic!("goodbye world!");
 }
